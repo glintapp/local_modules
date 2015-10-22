@@ -1,0 +1,38 @@
+{
+  "name": "local_modules",
+  "version": "1.0.0",
+  "description": "embeddable npm local_modules.",
+  "main": "index.js",
+  "bin": {
+    "lm": "index.js",
+    "local_modules": "index.js"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glintapp/local_modules.git"
+  },
+  "keywords": [
+    "local_modules",
+    "local",
+    "module",
+    "npm",
+    "bundled",
+    "embed"
+  ],
+  "author": "Andi Neck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/glintapp/local_modules/issues"
+  },
+  "homepage": "https://github.com/glintapp/local_modules#readme",
+  "dependencies": {
+    "defaults": "^1.0.3"
+  }
+}
