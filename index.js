@@ -2,16 +2,27 @@
  * module dependencies
  */
 var path = require('path');
-var shell = require('shelljs');
-var chalk = require('chalk');
 var defaults = require('defaults');
-var slice = require('sliced');
-var series = require('run-series');
 
 var c = require('./config');
 var help = require('./lib/help');
 var version = require('./lib/version');
 var install = require('./lib/install');
+
+// require commands located in ./lib
+var commands = (function requireCommands(){
+
+  var p = path.join(__dirname, 'lib');
+  var scripts = fs.readdirSync(p);
+  var cmds = {};
+
+  scripts.forEach(function(script){
+    var cmd = path.basename(script, '.js');
+    cmds[cmd] = require(path.join(p, script));
+  });
+  return cmds;
+
+})();
 
 /**
  *
@@ -48,19 +59,22 @@ module.exports = function localModules(o) {
   // read local_modules directory
   var directories = fs.readdirSync(dirPath);
 
-  // TODO check array filter only directories -> modules
+  // remove non directories
   options.modules = directories.filter(function(entry) {
       var dir = path.join(options.dirPath, entry);
-      if (!fs.statSync(dir).isDirectory()) return false;
+      return fs.statSync(dir).isDirectory();
     });
 
   /**
    * handle commands
    */
-  if (options.install) return install(options);
+  var executed = commands.some(function(command){
+    if (options[command]) {
+      return !!commands[command](options);
+    }
+  });
 
-
-  command.log('no command provided');
+  if (!executed) command.log('no command provided');
 
 };
 
