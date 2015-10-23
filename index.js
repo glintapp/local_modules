@@ -1,25 +1,28 @@
 /**
  * module dependencies
  */
+var fs = require('fs');
 var path = require('path');
 var defaults = require('defaults');
 
 var c = require('./config');
-var help = require('./lib/help');
-var version = require('./lib/version');
-var install = require('./lib/install');
 
-// require commands located in ./lib
+// require all commands located in "./lib" folder
 var commands = (function requireCommands(){
 
-  var p = path.join(__dirname, 'lib');
-  var scripts = fs.readdirSync(p);
   var cmds = {};
+  var p = path.join(__dirname, 'lib');
 
-  scripts.forEach(function(script){
-    var cmd = path.basename(script, '.js');
-    cmds[cmd] = require(path.join(p, script));
-  });
+  try {
+    var scripts = fs.readdirSync(p);
+    scripts.forEach(function(script){
+      var cmd = path.basename(script, '.js');
+      cmds[cmd] = require(path.join(p, script));
+    });
+  } catch(e) {
+    console.error('could not read command scripts', e.message);
+  }
+
   return cmds;
 
 })();
@@ -40,8 +43,15 @@ module.exports = function localModules(o) {
   /**
    *  early return commands
    */
-  if (options.help || options.h || options.H) return help(options);
-  if (options.version || options.v || options.V) return version(options);
+  if (options.help || options.h || options.H) return commands.help(options);
+  if (options.version || options.v || options.V) return commands.version(options);
+
+  /**
+   * arguments, alias, defaults etc.
+   */
+  options.cmd = options.cmd || options._[0] || '';
+  options.force = options.force || options.f;
+  options.modules = [];
 
   /**
    * basic processing: read local_modules and package.json
@@ -50,14 +60,19 @@ module.exports = function localModules(o) {
   options.packagePath = path.join(process.cwd(), options.package);
 
   // read package.json
-  options.packageJSON = fs.readFileSync(packagePath, 'utf8');
+  options.packageJSON = fs.readFileSync(options.packagePath, 'utf8');
 
   // parse package.json
   options.pkg = JSON.parse(options.packageJSON);
   options.pkg.dependencies = options.pkg.dependencies || {};
 
-  // read local_modules directory
-  var directories = fs.readdirSync(dirPath);
+  // try read local_modules directory
+  var directories = [];
+  try {
+    directories = fs.readdirSync(options.dirPath);
+  } catch (e) {
+    console.error('could not read local module directory: ' + e.message);
+  }
 
   // remove non directories
   options.modules = directories.filter(function(entry) {
@@ -68,13 +83,14 @@ module.exports = function localModules(o) {
   /**
    * handle commands
    */
-  var executed = commands.some(function(command){
-    if (options[command]) {
-      return !!commands[command](options);
+  var executed = Object.keys(commands).some(function(command){
+    if (options.cmd == command || options[command]) {
+      commands[command](options);
+      return true;
     }
   });
 
-  if (!executed) command.log('no command provided');
+  if (!executed) console.log('no command provided');
 
 };
 
