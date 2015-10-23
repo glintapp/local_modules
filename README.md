@@ -11,8 +11,7 @@ npm i -g local_modules
 # use
 
 > you can use `local_modules` from the code in node.js or via command line.
->
-> it uses
+
 
 ### command line
 ```sh
