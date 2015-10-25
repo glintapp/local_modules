@@ -35,7 +35,7 @@ var commands = (function requireCommands(){
 module.exports = function localModules(o) {
 
   /**
-   * get options right
+   * get options right, the options object is used as a `blackboard` as well. lookup: blackboard design pattern.
    */
   var options = defaults({}, o);
   defaults(options, c);
