@@ -4,7 +4,7 @@
 
 With `local_modules` you can develop your node.js library code in your application, as if they were node_modules published on npm.
 
-Benefits:
+**Benefits**
 - your module contains all it's dependencies
 - your application's package.json does not get bloated.
 - you can publish your application that contains `local_modules`
@@ -82,6 +82,12 @@ lm({cmd: 'install', dir: 'lib'});
 // or link example
 lm({cmd: 'link', dir: 'lib', force: true});
 
+```
+
+# test
+
+```sh
+npm test
 ```
 
 
