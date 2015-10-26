@@ -28,13 +28,27 @@ If you wan't to publish your module that contains `local_modules` to npm, you ca
 ```js
 
   "scripts": {
-    "postinstall": "lm install",
+    "postinstall": "local_modules install -f",
     ...
    }
 
 ```
 
+to **link** the local modules of your app into node_modules **and install their dependencies**, run:
+```sh
+lm link -f
+```
+
+to **install** the local modules of your app, run:
+```sh
+lm install -f
+```
+
+
 ### command line
+
+> `lm` is the alias for `local_modules`. you can use either one.
+
 ```sh
 lm -h
 
