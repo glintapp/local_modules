@@ -128,7 +128,7 @@ function moduleStat(module){
 
   var stats;
   try {
-    fs.lstatSync(p);
+    stats = fs.lstatSync(p);
   } catch (e) {
     stats = null;
   }
