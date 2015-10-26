@@ -1,6 +1,6 @@
 {
   "name": "local_modules",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "embeddable npm local_modules.",
   "main": "index.js",
   "bin": {
