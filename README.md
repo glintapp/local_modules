@@ -6,11 +6,17 @@ With `local_modules` you can develop your node.js library code in your applicati
 
 **Benefits**
 - your module contains all it's dependencies
+- require your local modules with absolute paths (no more: `require('../../../../server/controller.js')`)
 - your application's package.json does not get bloated.
 - you can publish your application that contains `local_modules`
 - the `local_modules` dependencies get installed
-- your `local_modules` do not have inside the `node_modules` directory.
+- your `local_modules` do not have to be developed inside the `node_modules` directory.
 - it supports your development workflow and installs `local_modules` as local npm modules.
+
+**why would I need a module for this?**
+
+> read: [MOTIVATION](MOTIVATION.md)
+
 
 # install
 
@@ -25,6 +31,8 @@ npm i -g local_modules
 
 If you wan't to publish your module that contains `local_modules` to npm, you can add this script to your `package.json`.
 
+**preparation**
+
 ```js
 
   "scripts": {
@@ -34,10 +42,14 @@ If you wan't to publish your module that contains `local_modules` to npm, you ca
 
 ```
 
+**development**
+
 to **link** the local modules of your app into node_modules **and install their dependencies**, run:
 ```sh
 lm link -f
 ```
+
+**production/deployment**
 
 to **install** the local modules of your app, run:
 ```sh
@@ -79,7 +91,7 @@ Options:
 
 ```sh
 # example
-// install local modules in "./lib" directory
+// install local modules in `./lib` directory
 lm install --dir lib
 
 
@@ -107,6 +119,7 @@ npm test
 
 # license
 MIT
+
 
 # author
 Andi Neck [@andineck](https://twitter.com/andineck)
