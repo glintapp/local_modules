@@ -95,9 +95,11 @@ and list them as bundledDependencies
 > -> does not work with `npm install`
 
 **install dependencies of bundledDependencies**
-> -> npm ignores it
+> -> npm ignores it, see:
 
-> -> https://github.com/npm/npm/issues/2442 and https://github.com/npm/npm/issues/1983 and http://stackoverflow.com/a/19928749
+  - [npm/#2442](https://github.com/npm/npm/issues/2442) and
+  - [npm/#1983](https://github.com/npm/npm/issues/1983) and
+  - [stackoverflow/19928749](http://stackoverflow.com/a/19928749)
 
 **install dependencies of local file: dependencies**
 > -> npm does it, yay... but
