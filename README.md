@@ -18,6 +18,24 @@ With `local_modules` you can develop your node.js library code in your applicati
 > read: [MOTIVATION](MOTIVATION.md)
 
 
+**whow does it work?**
+
+- during *development*, it installs your local modules dependencies and links and links your local modules into the `node_modules` directory.
+
+  Run:
+
+  ```
+  lm link -f
+  ```
+
+- when installing your app in *production*, it temporarely adds `file:` dependencies to your `package.json` and runs `npm install` to install your local modules and their dependencies. Afterwards it restores your original `package.json` file.
+
+  Run:
+
+  ```
+  lm install -f
+  ```
+
 # install
 
 ```sh
